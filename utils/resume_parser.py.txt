@@ -1,0 +1,14 @@
+import fitz  # PyMuPDF
+import docx
+
+def extract_text_from_resume(file):
+    if file.filename.endswith(".pdf"):
+        text = ""
+        pdf = fitz.open(stream=file.read(), filetype="pdf")
+        for page in pdf:
+            text += page.get_text()
+        return text
+    elif file.filename.endswith(".docx"):
+        doc = docx.Document(file)
+        return "\n".join([p.text for p in doc.paragraphs])
+    return ""
